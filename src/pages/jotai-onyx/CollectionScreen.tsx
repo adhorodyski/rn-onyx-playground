@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {Profiler, useEffect, useRef} from 'react';
 import {View, Text, Button, ScrollView} from 'react-native';
 import {useAtomValue} from 'jotai';
 import {ONYX_KEYS} from '../../lib/onyx-keys';
@@ -60,17 +60,19 @@ function JotaiProvidedKey() {
   const reports = useAtomValue(reportsAtom);
   const renderCounter = useRef(0);
 
-  useEffect(() => {
+  const onRender = () => {
     renderCounter.current += 1;
-  });
+  };
 
   return (
-    <View style={{flex: 1, padding: 4, backgroundColor: 'lightgreen'}}>
-      <Text style={{fontWeight: 'bold'}}>
-        Render count: {renderCounter.current}
-      </Text>
-      <Text>Keys count: {Object.keys(reports).length}</Text>
-    </View>
+    <Profiler id="JotaiProvidedKey" onRender={onRender}>
+      <View style={{flex: 1, padding: 4, backgroundColor: 'lightgreen'}}>
+        <Text style={{fontWeight: 'bold'}}>
+          Render count: {renderCounter.current}
+        </Text>
+        <Text>Keys count: {Object.keys(reports).length}</Text>
+      </View>
+    </Profiler>
   );
 }
 
@@ -80,17 +82,18 @@ function JotaiProvidedKey() {
 function OnyxProvidedKey({reports}: any) {
   const renderCounter = useRef(0);
 
-  useEffect(() => {
+  const onRender = () => {
     renderCounter.current += 1;
-  });
-
+  };
   return (
-    <View style={{flex: 1, padding: 4, backgroundColor: 'lightgreen'}}>
-      <Text style={{fontWeight: 'bold'}}>
-        Render count: {renderCounter.current}
-      </Text>
-      <Text>Keys count: {Object.keys(reports).length}</Text>
-    </View>
+    <Profiler id="OnyxProvidedKey" onRender={onRender}>
+      <View style={{flex: 1, padding: 4, backgroundColor: 'lightgreen'}}>
+        <Text style={{fontWeight: 'bold'}}>
+          Render count: {renderCounter.current}
+        </Text>
+        <Text>Keys count: {Object.keys(reports).length}</Text>
+      </View>
+    </Profiler>
   );
 }
 
