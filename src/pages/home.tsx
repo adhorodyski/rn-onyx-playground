@@ -1,14 +1,16 @@
 import React, {useCallback} from 'react';
 import {
-  Button,
   FlatList,
   ListRenderItem,
+  Pressable,
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useFocusEffect} from '@react-navigation/native';
+import Onyx from 'react-native-onyx';
 import type {RootStackParamList} from '../stacks/root';
+import {populateOnyx} from '../lib/onyx';
 
 type ScreenName = keyof RootStackParamList;
 
@@ -20,11 +22,17 @@ interface Item {
 
 // List experiments here
 const data: Item[] = [
-  {screen: 'Home', title: 'Long FlatList', description: 'Long FlatList'},
   {
-    screen: 'JotaiOnyx',
-    title: 'JotaiOnyx',
-    description: 'We will use Jotai and Onyx to manage state',
+    screen: 'JotaiCollection',
+    title: 'Onyx + Jotai (collection)',
+    description:
+      'Jotai as a React synchronisation layer for Onyx, with a collection (key/value pairs)',
+  },
+  {
+    screen: 'WithOnyxCollection',
+    title: 'Onyx + withOnyx (collection)',
+    description:
+      'WithOnyx HOC as a React synchronisation layer for Onyx, with a collection (key/value pairs)',
   },
 ];
 
@@ -33,15 +41,21 @@ const keyExtractor = (item: Item) => item.title;
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 function Home({navigation}: Props) {
+  useFocusEffect(
+    useCallback(() => {
+      Onyx.clear();
+      populateOnyx();
+    }, []),
+  );
+
   const renderItem: ListRenderItem<Item> = useCallback(
     ({item}) => (
-      <View style={styles.itemList}>
-        <Button
-          title={item.title}
-          onPress={() => navigation.navigate(item.screen)}
-        />
+      <Pressable
+        onPress={() => navigation.navigate(item.screen)}
+        style={styles.itemList}>
+        <Text style={styles.itemListTitle}>{item.title}</Text>
         <Text>{item.description}</Text>
-      </View>
+      </Pressable>
     ),
     [navigation],
   );
@@ -59,9 +73,15 @@ function Home({navigation}: Props) {
 const styles = StyleSheet.create({
   list: {
     paddingVertical: 30,
+    gap: 30,
   },
   itemList: {
     paddingHorizontal: 16,
+  },
+  itemListTitle: {
+    color: 'dodgerblue',
+    fontSize: 16,
+    marginBottom: 4,
   },
 });
 

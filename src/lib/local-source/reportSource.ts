@@ -1,41 +1,67 @@
-const reportSource = {
-  reportID: '2288427556088185',
-  reportName: '#admins',
-  type: 'chat',
-  chatType: 'policyAdmins',
-  ownerEmail: '__fake__',
-  ownerAccountID: 0,
-  managerEmail: '__fake__',
-  managerID: 0,
-  policyID: 'D861A57D1BA2FC93',
-  participantAccountIDs: [15221359],
-  isPinned: true,
-  lastReadTime: '2023-10-03 11:31:13.171',
-  lastReadSequenceNumber: 0,
-  lastVisibleActionCreated: '2023-10-03 11:31:13.171',
-  lastVisibleActionLastModified: '2023-10-03 11:31:13.171',
-  lastMessageText: '',
-  lastActorAccountID: 0,
-  notificationPreference: 'always',
-  welcomeMessage: '',
-  stateNum: 0,
-  statusNum: 0,
-  oldPolicyName: '',
-  isOwnPolicyExpenseChat: false,
-  lastMessageHtml: '',
-  hasOutstandingIOU: false,
-  writeCapability: 'all',
-  total: 0,
-  currency: 'USD',
-  submitterPayPalMeAddress: '',
-  isWaitingOnBankAccount: false,
-  hasDraft: false,
-  pendingFields: {
-    createChat: null,
-  },
-  errorFields: {
-    createChat: null,
-  },
-  isOptimisticReport: false,
-};
-export default reportSource;
+import {ONYX_KEYS} from '../onyx-keys';
+import {createRandomCollection} from './utils';
+import {
+  rand,
+  randBoolean,
+  randCurrencyCode,
+  randEmail,
+  randNumber,
+  randPastDate,
+  randSentence,
+  randUrl,
+  randWord,
+} from '@ngneat/falso';
+
+function createRandomReport(index: number) {
+  return {
+    reportID: index.toString(),
+    reportName: `#${randWord()}`,
+    type: rand(['chat']),
+    chatType: rand(['policyAdmins', 'policyParticipants']),
+    ownerEmail: randEmail(),
+    ownerAccountID: randNumber({length: 16}).toString(),
+    managerEmail: randEmail(),
+    managerID: randNumber({length: 16}).toString(),
+    policyID: index.toString(),
+    participantAccountIDs: [randNumber({length: 16}).toString()],
+    isPinned: randBoolean(),
+    lastReadTime: randPastDate().toISOString(),
+    lastReadSequenceNumber: randNumber(),
+    lastVisibleActionCreated: randPastDate().toISOString(),
+    lastVisibleActionLastModified: randPastDate().toISOString(),
+    lastMessageText: randSentence(),
+    lastActorAccountID: randNumber(),
+    notificationPreference: rand(['always']),
+    welcomeMessage: randSentence(),
+    stateNum: randNumber(),
+    statusNum: randNumber(),
+    oldPolicyName: randSentence(),
+    isOwnPolicyExpenseChat: randBoolean(),
+    lastMessageHtml: '',
+    hasOutstandingIOU: randBoolean(),
+    writeCapability: rand(['all']),
+    total: randNumber(),
+    currency: randCurrencyCode(),
+    submitterPayPalMeAddress: randUrl(),
+    isWaitingOnBankAccount: randBoolean(),
+    hasDraft: randBoolean(),
+    pendingFields: {
+      createChat: null,
+    },
+    errorFields: {
+      createChat: null,
+    },
+    isOptimizedReport: randBoolean(),
+  };
+}
+
+function createRandomReportsMap(length = 500) {
+  return createRandomCollection(
+    report => `${ONYX_KEYS.COLLECTION.REPORTS}${report.reportID}`,
+    createRandomReport,
+    length,
+  );
+}
+
+export {createRandomReport, createRandomReportsMap};
+export type Report = ReturnType<typeof createRandomReport>;

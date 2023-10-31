@@ -1,11 +1,15 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../pages/home';
-import JotaiOnyxScreen from '../pages/jotai-onyx/JotaiOnyxScreen';
+import {
+  CollectionScreenJotai,
+  CollectionScreenOnyx,
+} from '../pages/jotai-onyx/CollectionScreen';
 
 export type RootStackParamList = {
   Home: undefined;
-  JotaiOnyx: undefined;
+  JotaiCollection: undefined;
+  WithOnyxCollection: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,9 +23,14 @@ function RootStack() {
         options={{title: 'Experiments'}}
       />
       <Stack.Screen
-        name="JotaiOnyx"
-        component={JotaiOnyxScreen}
-        options={{title: 'JotaiOnyx'}}
+        name="JotaiCollection"
+        component={CollectionScreenJotai}
+        options={{title: 'Jotai + Onyx (Collection)'}}
+      />
+      <Stack.Screen
+        name="WithOnyxCollection"
+        component={CollectionScreenOnyx}
+        options={{title: 'withOnyx + Onyx (Collection)'}}
       />
     </Stack.Navigator>
   );
