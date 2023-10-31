@@ -1,16 +1,16 @@
 function createRandomCollection<T>(
-  createKey: (item: T) => string,
+  collectionKey: string,
   createItem: (index: number) => T,
   length = 500,
 ) {
-  const list = new Array(length)
-    .fill(null)
-    .map((_value, index) => createItem(index));
+  let map: Record<string, T> = {};
 
-  return list.reduce<Record<string, T>>((acc, item) => {
-    acc[createKey(item)] = item;
-    return acc;
-  }, {});
+  for (let i = 0; i < length; i++) {
+    const itemKey = `${collectionKey}_${i}`;
+    map[itemKey] = createItem(i);
+  }
+
+  return map;
 }
 
 export {createRandomCollection};

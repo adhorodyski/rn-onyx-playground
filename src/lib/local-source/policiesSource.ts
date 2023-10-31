@@ -9,7 +9,6 @@ import {
   randWord,
 } from '@ngneat/falso';
 import {createRandomCollection} from './utils';
-import {ONYX_KEYS} from '../onyx-keys';
 
 function createRandomPolicy(index: number) {
   return {
@@ -35,11 +34,7 @@ function createRandomPolicy(index: number) {
 }
 
 function createRandomPoliciesMap(length = 500) {
-  return createRandomCollection(
-    policy => `${ONYX_KEYS.COLLECTION.POLICIES}${policy.id}`,
-    createRandomPolicy,
-    length,
-  );
+  return createRandomCollection('policies', createRandomPolicy, length);
 }
 
 export {createRandomPolicy, createRandomPoliciesMap};

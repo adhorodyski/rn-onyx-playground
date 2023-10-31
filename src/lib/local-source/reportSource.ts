@@ -1,4 +1,3 @@
-import {ONYX_KEYS} from '../onyx-keys';
 import {createRandomCollection} from './utils';
 import {
   rand,
@@ -7,7 +6,6 @@ import {
   randEmail,
   randNumber,
   randPastDate,
-  randSentence,
   randUrl,
   randWord,
 } from '@ngneat/falso';
@@ -29,13 +27,13 @@ function createRandomReport(index: number) {
     lastReadSequenceNumber: randNumber(),
     lastVisibleActionCreated: randPastDate().toISOString(),
     lastVisibleActionLastModified: randPastDate().toISOString(),
-    lastMessageText: randSentence(),
+    lastMessageText: randWord(),
     lastActorAccountID: randNumber(),
     notificationPreference: rand(['always']),
-    welcomeMessage: randSentence(),
+    welcomeMessage: randWord(),
     stateNum: randNumber(),
     statusNum: randNumber(),
-    oldPolicyName: randSentence(),
+    oldPolicyName: randWord(),
     isOwnPolicyExpenseChat: randBoolean(),
     lastMessageHtml: '',
     hasOutstandingIOU: randBoolean(),
@@ -56,11 +54,7 @@ function createRandomReport(index: number) {
 }
 
 function createRandomReportsMap(length = 500) {
-  return createRandomCollection(
-    report => `${ONYX_KEYS.COLLECTION.REPORTS}${report.reportID}`,
-    createRandomReport,
-    length,
-  );
+  return createRandomCollection('reports', createRandomReport, length);
 }
 
 export {createRandomReport, createRandomReportsMap};

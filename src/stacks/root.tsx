@@ -5,11 +5,13 @@ import {
   CollectionScreenJotai,
   CollectionScreenOnyx,
 } from '../pages/jotai-onyx/CollectionScreen';
+import {CollectionScreenJotaiMMKV} from '../pages/jotai-mmkv/CollectionScreen';
 
 export type RootStackParamList = {
   Home: undefined;
   JotaiCollection: undefined;
   WithOnyxCollection: undefined;
+  JotaiMmkvCollection: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -31,6 +33,11 @@ function RootStack() {
         name="WithOnyxCollection"
         component={CollectionScreenOnyx}
         options={{title: 'withOnyx + Onyx (Collection)'}}
+      />
+      <Stack.Screen
+        name="JotaiMmkvCollection"
+        component={CollectionScreenJotaiMMKV}
+        options={{title: 'Jotai + MMKV (Collection)'}}
       />
     </Stack.Navigator>
   );
