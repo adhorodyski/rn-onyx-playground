@@ -34,6 +34,11 @@ const data: Item[] = [
     description:
       'WithOnyx HOC as a React synchronisation layer for Onyx, with a collection (key/value pairs)',
   },
+  {
+    screen: 'TanstackQuery',
+    title: 'Tanstack Query',
+    description: 'Tanstack query directly interacting with the database',
+  },
 ];
 
 const keyExtractor = (item: Item) => item.title;

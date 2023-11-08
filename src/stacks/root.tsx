@@ -5,11 +5,13 @@ import {
   CollectionScreenJotai,
   CollectionScreenOnyx,
 } from '../pages/jotai-onyx/CollectionScreen';
+import TanstackQueryScreen from '../pages/tanstack-query';
 
 export type RootStackParamList = {
   Home: undefined;
   JotaiCollection: undefined;
   WithOnyxCollection: undefined;
+  TanstackQuery: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -31,6 +33,11 @@ function RootStack() {
         name="WithOnyxCollection"
         component={CollectionScreenOnyx}
         options={{title: 'withOnyx + Onyx (Collection)'}}
+      />
+      <Stack.Screen
+        name="TanstackQuery"
+        component={TanstackQueryScreen}
+        options={{title: 'Tanstack Query'}}
       />
     </Stack.Navigator>
   );

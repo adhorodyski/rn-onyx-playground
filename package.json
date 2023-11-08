@@ -13,6 +13,7 @@
     "@ngneat/falso": "^7.1.1",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
+    "@tanstack/react-query": "^5.8.1",
     "jotai": "^2.4.3",
     "react": "18.2.0",
     "react-native": "0.72.5",
